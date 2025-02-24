@@ -1,0 +1,98 @@
+---
+title: "Untitled"
+format: html
+---
+
+<script src="https://cdn.auth0.com/js/auth0-spa-js/1.22/auth0-spa-js.production.js"></script>
+
+<style>
+  body { display: none; }
+</style>
+
+<script>
+    // Configuración de Auth0
+    const auth0Config = {
+      domain: "aguerocr.us.auth0.com",
+      client_id: "395wMOWLfbzKeJz71zw0NYkMuNOEMGvk",
+      redirect_uri: "https://aprendetidyverse.quarto.pub/demoa"
+    };
+
+    let auth0Client = null;
+
+    // Función para inicializar Auth0
+    const initializeAuth0 = async () => {
+      auth0Client = await createAuth0Client(auth0Config);
+
+      // Procesa el callback si existen parámetros de login en la URL
+      if (window.location.search.includes("code=") && window.location.search.includes("state=")) {
+        await auth0Client.handleRedirectCallback();
+        window.history.replaceState({}, document.title, window.location.pathname);
+      }
+
+      // Actualiza la interfaz según el estado de autenticación
+      updateUI();
+    };
+
+    // Función para actualizar la interfaz
+    const updateUI = async () => {
+      const isAuthenticated = await auth0Client.isAuthenticated();
+
+      if (isAuthenticated) {
+        const user = await auth0Client.getUser();
+        // Reemplaza el contenido del elemento con id "title-block-header" con el mensaje de bienvenida
+        document.getElementById("title-block-header").innerHTML = `<h3>Bienvenido ${user.name}</h3>`;
+        // Muestra el contenedor del botón de cerrar sesión (parte superior derecha)
+        document.getElementById("logout-container").style.display = "block";
+        // Muestra el contenido de la página
+        document.body.style.display = "block";
+      } else {
+        // Si no está autenticado, redirige automáticamente a iniciar sesión
+        await login();
+      }
+    };
+
+    // Función para iniciar sesión
+    const login = async () => {
+      await auth0Client.loginWithRedirect();
+    };
+
+    // Función para cerrar sesión
+    const logout = () => {
+      auth0Client.logout({
+        returnTo: window.location.origin
+      });
+    };
+
+    // Inicializa Auth0 al cargar la página
+    window.onload = initializeAuth0;
+</script>
+
+<div id="logout-container" style="position: absolute; top: 10px; right: 10px; display: none;">
+<button onclick="logout()">Cerrar Sesión</button>
+</div>
+
+
+
+
+## Quarto
+
+Quarto enables you to weave together content and executable code into a finished document. To learn more about Quarto see <https://quarto.org>.
+
+## Running Code
+
+When you click the **Render** button a document will be generated that includes both content and the output of embedded code. You can embed code like this:
+
+```{r}
+1 + 1
+```
+
+You can add options to executable code like this 
+
+```{r}
+#| echo: false
+2 * 2
+```
+
+The `echo: false` option disables the printing of code (only output is displayed).
+
+</div>
