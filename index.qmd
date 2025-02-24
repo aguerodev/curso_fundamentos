@@ -14,7 +14,7 @@ format: html
     const auth0Config = {
       domain: "aguerocr.us.auth0.com",
       client_id: "395wMOWLfbzKeJz71zw0NYkMuNOEMGvk",
-      redirect_uri: "https://aprendetidyverse.quarto.pub/demoa"
+      redirect_uri: window.location.origin
     };
 
     let auth0Client = null;
@@ -93,6 +93,6 @@ You can add options to executable code like this
 2 * 2
 ```
 
-The `echo: false` option disables the printing of code (only output is displayed).
+The `echo: false` option disables the printing of code (only output is displayed).555
 
 </div>
