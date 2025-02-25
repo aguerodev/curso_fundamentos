@@ -1,0 +1,31 @@
+name: Render y Publica Quarto en Main
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  render-and-deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout del repositorio
+        uses: actions/checkout@v3
+
+      - name: Renderizar sitio con Quarto
+        uses: quarto-dev/quarto-action@v2
+        with:
+          args: render
+
+      - name: Copiar archivo CNAME al sitio
+        # Se asume que el archivo CNAME se encuentra en la raíz del repositorio
+        run: cp CNAME _site/
+
+      - name: Publicar en GitHub Pages sobre main
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: _site
+          publish_branch: main
+          keep_files: true
