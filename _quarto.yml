@@ -1,1 +1,2 @@
-project:type:website
+project:
+  type: website
