@@ -13,13 +13,15 @@ jobs:
       - name: Checkout del repositorio
         uses: actions/checkout@v3
 
-      - name: Renderizar sitio con Quarto
-        uses: quarto-dev/quarto-action@v2
-        with:
-          args: render
+      - name: Configurar Quarto
+        uses: quarto-dev/quarto-actions/setup@v2
 
-      - name: Copiar archivo CNAME al sitio
-        # Se asume que el archivo CNAME se encuentra en la raíz del repositorio
+      - name: Renderizar sitio con Quarto
+        uses: quarto-dev/quarto-actions/render@v2
+        with:
+          path: .  # o la ruta donde se encuentran tus archivos QMD
+
+      - name: Copiar archivo CNAME al directorio de salida
         run: cp CNAME _site/
 
       - name: Publicar en GitHub Pages sobre main
