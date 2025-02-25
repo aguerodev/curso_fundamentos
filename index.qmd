@@ -1,6 +1,8 @@
 ---
 title: "Untitled"
 format: html
+toc: true
+lang: es
 ---
 
 <script src="https://cdn.auth0.com/js/auth0-spa-js/1.22/auth0-spa-js.production.js"></script>
